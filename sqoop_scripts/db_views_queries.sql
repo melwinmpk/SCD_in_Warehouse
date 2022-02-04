@@ -1,5 +1,6 @@
 use adventureworks;
 
+drop view if exists v_salesorderheader; 
 create view v_salesorderheader as
 	select
 	SalesOrderID,          
@@ -39,7 +40,7 @@ from salesorderheader so left join salesperson sp on sp.SalesPersonID = so.Sales
 left join salesterritory st ON st.TerritoryID = sp.TerritoryID
 left join currencyrate cr on cr.CurrencyRateID = so.CurrencyRateID;
 
-
+drop view if exists v_salesorderdetails;
 create view v_salesorderdetails as
 select          
 	SalesOrderDetailID,    
@@ -59,7 +60,7 @@ select
 from salesorderdetail sod join specialoffer so 
 on sod.SpecialOfferID = so.SpecialOfferID;
 
-
+drop view if exists v_product;
 create view v_product as
 select p.productId,
 	p.name,
@@ -93,7 +94,7 @@ left join productcategory pc on ps.productcategoryid = pc.productcategoryid
 left join productmodel pm on p.productmodelid = pm.productmodelid;
 
 
-
+drop view if exists v_customer;
 create view v_customer as 
 select cus.CustomerID,cus.AccountNumber, cus.CustomerType, ind.Demographics, con.NameStyle, con.Title, con.FirstName,             
 con.MiddleName,con.LastName, con.Suffix, con.EmailAddress, con.EmailPromotion, con.Phone, con.AdditionalContactInfo,  

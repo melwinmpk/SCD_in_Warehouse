@@ -2,3 +2,5 @@
 .ipynb_checkpoints/*
 logs/*
 env/sql.pwd
+*.java
+nohup.out
