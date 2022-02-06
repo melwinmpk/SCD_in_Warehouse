@@ -20,36 +20,56 @@ sqoop-job --create loadcustomers -- import  \
 
 sqoop-job --exec loadcustomers
 
-# /user/saif/HFS/Output/stores/sqoop
-# /user/saif/HFS/Output/Inc_Imports_Id
-
 # sqoop script to create a new job to load salesorderheader data from rdbms to hdfs
-# sqoop-job --create loadsalesorderheader -- import  --connect jdbc:mysql://quickstart:3306/adventureworks --username root \
-# --table v_salesorderheader --as-parquetfile \
-# --target-dir /user/cloudera/bigretail/output/stores/sqoop/salesorderheader  \
-# --split-by SalesOrderID --num-mappers 1 --check-column SalesOrderID --incremental append \
-# --password-file /user/cloudera/passwordfile
+sqoop job --delete loadsalesorderheader
+
+sqoop-job --create loadsalesorderheader -- import  \
+--connect jdbc:mysql://localhost:${PORT_NO}/${DB_SQL}?useSSL=False \
+--username root --password-file file:///home/saif/SCD_in_Warehouse/env/sql.pwd \
+--table v_salesorderheader --as-parquetfile \
+--target-dir ${HADOOP_FILEPATH}/stores/sqoop/salesorderheader  \
+--split-by SalesOrderID --num-mappers 1 --check-column SalesOrderID --incremental append 
+
+sqoop-job --exec loadsalesorderheader
 
 
 # sqoop script to create a new job to load salesorderdetails data from rdbms to hdfs
-# sqoop-job --create loadsalesorderdetail -- import  --connect jdbc:mysql://quickstart:3306/adventureworks --username root \
-# --table v_salesorderdetails  --as-parquetfile \
-# --target-dir /user/cloudera/bigretail/output/stores/sqoop/salesorderdetails  \
-# --split-by SalesOrderDetailID --num-mappers 1 --check-column SalesOrderDetailID --incremental append \
-# --password-file /user/cloudera/passwordfile
+
+sqoop job --delete loadsalesorderdetail
+
+sqoop-job --create loadsalesorderdetail -- import  \
+--connect jdbc:mysql://localhost:${PORT_NO}/${DB_SQL}?useSSL=False \
+--username root --password-file file:///home/saif/SCD_in_Warehouse/env/sql.pwd \
+--table v_salesorderdetails  --as-parquetfile \
+--target-dir ${HADOOP_FILEPATH}/stores/sqoop/salesorderdetails  \
+--split-by SalesOrderDetailID --num-mappers 1 --check-column SalesOrderDetailID --incremental append 
+
+sqoop-job --exec loadsalesorderheader
 
 
 # sqoop script to create a new job to load v_product data from rdbms to hdfs
-# sqoop-job --create loadproducts -- import  --connect jdbc:mysql://quickstart:3306/adventureworks --username root \
-# --table v_product  --as-parquetfile \
-# --target-dir /user/cloudera/bigretail/output/stores/sqoop/products  \
-# --split-by productId --num-mappers 1 --check-column modifieddate --incremental lastmodified \
-# --password-file /user/cloudera/passwordfile
+sqoop job --delete loadproducts
+
+sqoop-job --create loadproducts -- import  \
+--connect jdbc:mysql://localhost:${PORT_NO}/${DB_SQL}?useSSL=False \
+--username root --password-file file:///home/saif/SCD_in_Warehouse/env/sql.pwd \
+--table v_product  --as-parquetfile \
+--target-dir ${HADOOP_FILEPATH}/stores/sqoop/products  \
+--split-by productId --num-mappers 1 --check-column modifieddate --incremental lastmodified 
+
+sqoop-job --exec loadproducts
 
 # sqoop job to load creditcard table
-# sqoop job --create loadcreditcard -- import --connect jdbc:mysql://quickstart:3306/adventureworks --username root \
-# --table creditcard --as-parquetfile --target-dir /user/cloudera/bigretail/output/stores/sqoop/creditcard  \ 
-# --num-mappers 1 --check-column ModifiedDate --append --incremental lastmodified --password-file /user/cloudera/passwordfile 
+sqoop job --delete loadcreditcard 
+
+sqoop job --create loadcreditcard -- import \
+--connect jdbc:mysql://localhost:${PORT_NO}/${DB_SQL}?useSSL=False \
+--username root --password-file file:///home/saif/SCD_in_Warehouse/env/sql.pwd \
+--table creditcard --as-parquetfile \
+--target-dir ${HADOOP_FILEPATH}/stores/sqoop/creditcard --num-mappers 1 --check-column ModifiedDate \
+--append --incremental lastmodified 
+
+sqoop-job --exec loadcreditcard
 
 if [ $? -eq 0 ]
 then 
@@ -60,9 +80,3 @@ else
 	 echo "ERROR!!! SQOOP JOB DID NOT EXECUTED "
 	 exit 1
 fi
-
-
-#to execute any of the jobs 
-# sqoop-job --exec loadsalesorderheader
-
-
