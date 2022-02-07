@@ -1,0 +1,6 @@
+SQLPASSWORD_FILE=/home/saif/SCD_in_Warehouse/env/sql.pwd
+PORT_NO=3306
+DB_SQL=adventureworks
+USERNAME=root
+PASWD_PATH=file:///home/saif/SCD_in_Warehouse/env/sql.pwd
+HADOOP_FILEPATH=/user/saif/HFS/Output
