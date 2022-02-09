@@ -4,3 +4,6 @@
 env/sql.pwd
 *.java
 nohup.out
+.idea/*
+Pipfile.lock
+Pipfile
