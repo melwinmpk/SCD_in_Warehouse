@@ -41,7 +41,7 @@
 
 ## Help Code
 
-### Delte all the hdfs data
+### Delete all the hdfs data
 <pre>
     hdfs dfs -rm -r /user/saif/HFS/Output/stores/
 </pre>
