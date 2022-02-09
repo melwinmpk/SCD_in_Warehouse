@@ -33,13 +33,3 @@ fi
 
 
 `./${sqoopjobfile} ${paramfile}`
-
-if [ $? -eq 0 ]
-then 
-    echo "SQOOP JOB EXECUTED SUCCESSFULLY"
-    echo "SQOOP JOB EXECUTED SUCCESSFULLY" >> ${logfile}
-else
-	 echo "ERROR!!! SQOOP JOB DID NOT EXECUTED " 
-	 echo "ERROR!!! SQOOP JOB DID NOT EXECUTED "  >> ${logfile}
-	 exit 1
-fi
