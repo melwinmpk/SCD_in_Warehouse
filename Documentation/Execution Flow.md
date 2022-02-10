@@ -35,8 +35,10 @@
 
 ### 4 Execute the SCD1 code
 <pre>
-    
+    hive -f ./hive/creditcard_scd1.hql 
 </pre>
+
+
 
 
 ## Help Code
@@ -44,6 +46,11 @@
 ### Delete all the hdfs data
 <pre>
     hdfs dfs -rm -r /user/saif/HFS/Output/stores/
+</pre>
+
+## Delete customer_demo hdfs location
+<pre>
+     hdfs dfs -rm -r HFS/Output/stores/target/customer_demo/*
 </pre>
 
 ### If the hdfs is in safe mode

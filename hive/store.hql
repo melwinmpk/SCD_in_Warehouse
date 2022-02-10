@@ -39,18 +39,18 @@ location '/user/saif/HFS/Output/stores/target/customers';
 create external table customer_demo
 (
     customerid int,
-    totalpurchaseytd decimal(15,2),
+    totalpurchaseytd float,
     datefirstpurchase date,
     birthdate date,
     maritalstatus string,
     yearlyincome string,
     gender string,
-    totalchildren tinyint,
-    numberchildrenathome tinyint,
+    totalchildren int,
+    numberchildrenathome int,
     education string,
     occupation string,
     homeownerflag string,
-    numbercarsowned tinyint,
+    numbercarsowned int,
     commutedistance string,
     create_date date
 )
@@ -61,18 +61,18 @@ location '/user/saif/HFS/Output/stores/target/customer_demo';
 create external table customer_demo_history
 (
     customerid int,
-    totalpurchaseytd decimal(15,2),
+    totalpurchaseytd float,
     datefirstpurchase date,
     birthdate date,
     maritalstatus string,
     yearlyincome string,
     gender string,
-    totalchildren tinyint,
-    numberchildrenathome tinyint,
+    totalchildren int,
+    numberchildrenathome int,
     education string,
     occupation string,
     homeownerflag string,
-    numbercarsowned tinyint,
+    numbercarsowned int,
     commutedistance string,
     create_date date,
     end_date date

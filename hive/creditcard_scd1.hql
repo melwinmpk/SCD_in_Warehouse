@@ -1,5 +1,17 @@
 
 -- EXECUTE THIS FOR THE EVERY SQOOP COMMAND
+set hive.support.concurrency=true;
+set hive.enforce.bucketing=true;
+set hive.exec.dynamic.partition.mode=nonstrict;
+set hive.compactor.initiator.on=true;
+set hive.compactor.worker.threads=1;
+set hive.txn.manager=org.apache.hadoop.hive.ql.lockmgr.DbTxnManager;
+set hive.exec.dynamic.partition=true;
+set hive.exec.dynamic.partition.mode=nonstrict;
+set hive.exec.max.dynamic.partitions=100;
+set hive.exec.max.dynamic.partitions.pernode=100;
+Set hive.auto.convert.join=false;
+Set hive.merge.cardinality.check=false;
 
 DROP TABLE IF EXISTS store_stage.creditcard_temp;
 

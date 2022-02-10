@@ -7,3 +7,6 @@ nohup.out
 .idea/*
 Pipfile.lock
 Pipfile
+spark/creating the data.ipynb
+spark/scd4.ipynb
+scrap
