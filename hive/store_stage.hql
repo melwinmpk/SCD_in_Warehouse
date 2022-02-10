@@ -1,6 +1,6 @@
-create database if not exists store;
+create database if not exists store_stage;
 
-use store;
+use store_stage;
 
 drop table if exists product;
 drop table if exists customer;
@@ -38,7 +38,7 @@ create external table product (
 	modifieddate bigint
 )
 stored as parquet
-location '/user/saif/HFS/Output/stores/sqoop/products';
+location '/user/saif/HFS/Output/stores/stage/products';
 
 
 create external table customer (
@@ -63,7 +63,7 @@ create external table customer (
 	ModifiedDate bigint
 	)
 stored as parquet
-location '/user/saif/HFS/Output/stores/sqoop/customers';
+location '/user/saif/HFS/Output/stores/stage/customers';
 
 
 create external table salesorderheader (
@@ -102,7 +102,7 @@ create external table salesorderheader (
     modifieddate bigint     
 )
 stored as parquet
-location '/user/saif/HFS/Output/stores/sqoop/salesorderheader';   
+location '/user/saif/HFS/Output/stores/stage/salesorderheader';
 
 
 create external table salesorderdetails(
@@ -121,7 +121,7 @@ create external table salesorderdetails(
     modifieddate string 
 )
 stored as parquet
-location '/user/saif/HFS/Output/stores/sqoop/salesorderdetails';
+location '/user/saif/HFS/Output/stores/stage/salesorderdetails';
 
 
 create external table creditcard (
@@ -133,4 +133,4 @@ create external table creditcard (
     modifieddate bigint	
 )
 stored as parquet
-location '/user/saif/HFS/Output/stores/sqoop/creditcard';
+location '/user/saif/HFS/Output/stores/stage/creditcard';
