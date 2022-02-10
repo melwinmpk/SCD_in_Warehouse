@@ -46,10 +46,16 @@ if __name__ == '__main__':
                         .withColumn("numbercarsowned",F.col("numbercarsowned").cast(IntegerType()))\
                         .withColumn("datefirstpurchase",F.date_format(F.substring(F.col("datefirstpurchase"),1,10),"yyyy-MM-dd"))\
                         .withColumn("birthdate",F.date_format(F.substring(F.col("birthdate"),1,10),"yyyy-MM-dd"))
+
     newcustomerdemo_df = postfinalformated_df
 
-    existingcustomer_df = spark.read.format("orc")\
-                          .load("hdfs://localhost:9000/user/saif/HFS/Output/stores/target/customer_demo")
+    postfinalformated_df.write.format("orc") \
+        .mode("overwrite") \
+        .save("hdfs://localhost:9000/user/saif/HFS/Output/stores/target/customer_demo")
+
+    existingcustomer_df = postfinalformated_df
+    # existingcustomer_df = spark.read.format("orc")\
+    #                       .load("hdfs://localhost:9000/user/saif/HFS/Output/stores/target/customer_demo")
 
     outerJoin_df = existingcustomer_df.alias('exist').join(newcustomerdemo_df.alias('new'),
                                                            F.col("new.customerid") == F.col("exist.customerid"),
@@ -127,7 +133,7 @@ if __name__ == '__main__':
     result_df.show(10,truncate=False)
     result_df.write.format("orc") \
         .mode("overwrite") \
-        .save("hdfs://localhost:9000/user/saif/HFS/Output/stores/target/customer_demo")
+        .save("hdfs://localhost:9000/user/saif/HFS/Output/stores/target/customer_demo_history")
     # postfinalformated_df.write.format("orc") \
     #     .mode("overwrite") \
     #     .save("hdfs://localhost:9000/user/saif/HFS/Output/stores/target/customer_demo")
