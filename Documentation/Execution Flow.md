@@ -38,7 +38,15 @@
     hive -f ./hive/creditcard_scd1.hql 
 </pre>
 
+### 5 Execute the SCD2 code
+<pre>
+    hive -f ./hive/customer_scd2.hql
+</pre>
 
+### 6 Execute the SCD4
+<pre>   
+    python3 /sparrk/scd4.py
+</pre>
 
 
 ## Help Code
