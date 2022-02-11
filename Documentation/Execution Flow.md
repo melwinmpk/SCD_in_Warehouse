@@ -2,14 +2,14 @@
 
 <ul>
     <li>
-    STEP 1: Creat a folder <b>`logs`</b> (to store the logs)
+    STEP 1: Create a folder <b>`logs`</b> (to store the logs)
     </li>
     <li>
-    STEP 2: Creat a file named <b>`sql.pwd`</b> <br>
-            storing the password of the MYSQL server inside <b>env</b> folder             
+    STEP 2: Create a file named <b>`sql.pwd`</b> <br>
+            storing the password of the MYSQL server inside the <b>env</b> folder             
     </li>
     <li>
-    STEP 3: GIVE the execution permission to all the files present in the mainscripts file <br>
+    STEP 3: GIVE the execution permission to all the files present in the <b>mainscripts</b> files <br>
             <pre>
                 chmod u+x mainscripts/*
             </pre>
