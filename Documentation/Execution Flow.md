@@ -14,21 +14,25 @@
                 chmod u+x mainscripts/*
             </pre>
     </li>
+    <li>
+    STEP 4: Copy The airflow/dags/scd_in_warehouse.py file to the respective airflow execution folder <br> Set the <b>ROOT_PATH</b>
+    as per the Project location (i.e: SCD_in_Warehouse) 
+    </li>
 </ul>
 
-## Commands Execution Flow
+## Commands Execution Flow Manual Execution
 
-### 1 Loading the data to MySQL server
+### 1 Loading the data to MySQL server (First Time)
 <pre>
     ./mainscripts/loadthedata_to_mysql.sh env/params.prm
 </pre>
 
-### 2 Loading the  MySQL data to HDFS 
+### 2 Loading the  MySQL data to HDFS (First Time)
 <pre>
     ./mainscripts/loadthedatafrom_mysql_to_hdfs.sh env/params.prm sqoop_scripts/sqoop_job.sh
 </pre>
 
-### 3 Load the hive Tables
+### 3 Load the hive Tables (First Time)
 <pre>
     ./mainscripts/loaddat_to_hive.sh
 </pre>
@@ -45,7 +49,12 @@
 
 ### 6 Execute the SCD4
 <pre>   
-    python3 /sparrk/scd4.py
+    python3 /spark/scd4.py
+</pre>
+
+### 7 Airflow Dag Name 
+<pre>
+    SCD_IN_WAREHOUSE
 </pre>
 
 

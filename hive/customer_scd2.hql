@@ -61,7 +61,8 @@ a.countryregioncode = b.countryregioncode;
 insert into customer_temp
 select b.customerid, b.accountnumber, b.customertype, b.namestyle, b.title, b.firstname, b.middlename,
 b.lastname, b.suffix, b.emailaddress, b.emailpromotion, b.phone, b.additionalcontactinfo, b.territoryid,
-b.territoryname,b.countryregioncode, b.`group`, b.modifieddate, current_date(), true from customer_temp a join customer b on a.customerid = b.customerid
+b.territoryname,b.countryregioncode, b.`group`, current_date(), null,
+true from customer_temp a join customer b on a.customerid = b.customerid
 where a.`group` = b.`group` or
     a.accountnumber = b.accountnumber or
     a.customertype = b.customertype or
@@ -78,7 +79,8 @@ where a.`group` = b.`group` or
 insert into customer_temp
 select b.customerid, b.accountnumber, b.customertype, b.namestyle, b.title, b.firstname, b.middlename,
 b.lastname, b.suffix, b.emailaddress, b.emailpromotion, b.phone, b.additionalcontactinfo, b.territoryid,
-b.territoryname,b.countryregioncode, b.`group`, current_date(), null, true from customer a join customer_temp b on a.customerid = b.customerid
+b.territoryname,b.countryregioncode, b.`group`, current_date(), null,
+true from customer a join customer_temp b on a.customerid = b.customerid
 where  a.`group` = b.`group` or
 a.accountnumber = b.accountnumber or
 a.customertype = b.customertype or
@@ -90,12 +92,8 @@ a.territoryid = b.territoryid or
 a.countryregioncode = b.countryregioncode;
 
 -- insert overwrite from temporary table to target
-insert overwrite table customer
-select T.customerid, T.accountnumber, T.customertype, null, T.namestyle, T.title, T.firstname, T.middlename,
-T.lastname, T.suffix, T.emailaddress,
-T.emailpromotion, T.phone, T.additionalcontactinfo,
-T.territoryid, T.territoryname,T.countryregioncode,T.`group`,
-T.modifieddate from customer_temp as T;
+insert overwrite table store.customer
+select T.* from customer_temp as T;
 
 
 -- drop the temporary table table
