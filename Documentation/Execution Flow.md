@@ -25,7 +25,7 @@
 ## Commands Execution Flow Manual Execution
 
 ### Make Sure you are running the HDFS, Hive, AirFlow for the below code
-
+``
 ### 1 Loading the data to MySQL server (First Time)
 <pre>
     ./mainscripts/loadthedata_to_mysql.sh env/params.prm
@@ -53,7 +53,7 @@
 
 ### 6 Execute the SCD4
 <pre>   
-    python3 /spark/scd4.py
+    python3 spark/scd4.py
 </pre>
 
 ### 7 Airflow Dag Name 

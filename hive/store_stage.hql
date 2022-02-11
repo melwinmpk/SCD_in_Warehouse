@@ -45,7 +45,7 @@ create external table customer (
 	CustomerID int,
 	AccountNumber  string,
 	CustomerType varchar(1),
-	Demographics string, 
+	Demographics string,
 	NameStyle boolean,
 	Title string,
 	FirstName string ,
