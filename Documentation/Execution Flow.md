@@ -20,7 +20,11 @@
     </li>
 </ul>
 
+
+
 ## Commands Execution Flow Manual Execution
+
+### Make Sure you are running the HDFS, Hive, AirFlow for the below code
 
 ### 1 Loading the data to MySQL server (First Time)
 <pre>
