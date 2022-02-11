@@ -27,73 +27,70 @@ create temporary table customer_temp (
 stored as parquet;
 
 
--- copy into temporary table all records in target that are not in source
+-- copy into temporary table all records in target(store) that are not in source(store_stage)
 insert into customer_temp
-select * from customer_temp where customerid not in (select customerid from store.customer);
+select * from store.customer where customerid not in (select customerid from customer);
 
-
--- copy into temporary table all records that are in source but not in temporary table and set defalts
+-- copy into temporary table all records in source(store_stage) that are not in target(store)
 insert into customer_temp
 select T.customerid, T.accountnumber, T.customertype, T.namestyle, T.title, T.firstname, T.middlename,
 T.lastname, T.suffix, T.emailaddress, T.emailpromotion, T.phone, T.additionalcontactinfo, T.territoryid,
-T.territoryname,T.countryregioncode, T.`group`, T.modifieddate  , current_date(), true
+T.territoryname,T.countryregioncode, T.`group`, T.ModifiedDate, current_date(), true
+from customer T where T.customerid not in (select customerid from store.customer);
+
+-- copy into temporary table all records that are updated from source(store_stage) which are in target(store_stage) set the flag value as true
+insert into customer_temp
+select T.customerid, T.accountnumber, T.customertype, T.namestyle, T.title, T.firstname, T.middlename,
+T.lastname, T.suffix, T.emailaddress, T.emailpromotion, T.phone, T.additionalcontactinfo, T.territoryid,
+T.territoryname,T.countryregioncode, T.`group`, T.ModifiedDate, current_date(), true
 from customer T
-where customerid not in (select customerid from customer_temp);
+join store.customer a on T.customerid = a.customerid
+where a.accountnumber != T.accountnumber or
+a.customertype != T.customertype or
+a.firstname != T.firstname or
+a.middlename != T.middlename or
+a.emailaddress != T.emailaddress or
+a.phone != T.phone or
+a.territoryid != T.territoryid or
+a.countryregioncode != T.countryregioncode;
 
-
--- copy into temporary table all records in both stable but match
+-- copy into temporary table all records that are not updated from source(store_stage) which are in target(store_stage) set the flag value as true
 insert into customer_temp
-select a.* from customer_temp a join customer b on a.customerid = b.customerid
-where a.`group` = b.`group` and
-a.accountnumber = b.accountnumber and
-a.customertype = b.customertype and
-a.firstname = b.firstname and
-a.middlename = b.middlename and
-a.emailaddress = b.emailaddress and
-a.phone = b.phone and
-a.territoryid = b.territoryid and
-a.countryregioncode = b.countryregioncode;
+select T.customerid, T.accountnumber, T.customertype, T.namestyle, T.title, T.firstname, T.middlename,
+T.lastname, T.suffix, T.emailaddress, T.emailpromotion, T.phone, T.additionalcontactinfo, T.territoryid,
+T.territoryname,T.countryregioncode, T.`group`, T.ModifiedDate, current_date(), true
+from customer T
+join store.customer a on T.customerid = a.customerid
+where a.accountnumber = T.accountnumber and
+a.customertype = T.customertype and
+a.firstname = T.firstname and
+a.middlename = T.middlename and
+a.emailaddress = T.emailaddress and
+a.phone = T.phone and
+a.territoryid = T.territoryid and
+a.countryregioncode = T.countryregioncode;
 
-
-
--- copy into temporary table all records in both stable but dont match from the target
--- make sure to set end_date and active records to mark their time in history
+-- copy into temporary table all records from target(store) which are updated in source(store_stage) set the flag value as false
 insert into customer_temp
-select b.customerid, b.accountnumber, b.customertype, b.namestyle, b.title, b.firstname, b.middlename,
-b.lastname, b.suffix, b.emailaddress, b.emailpromotion, b.phone, b.additionalcontactinfo, b.territoryid,
-b.territoryname,b.countryregioncode, b.`group`, current_date(), null,
-true from customer_temp a join customer b on a.customerid = b.customerid
-where a.`group` = b.`group` or
-    a.accountnumber = b.accountnumber or
-    a.customertype = b.customertype or
-    a.firstname = b.firstname or
-    a.middlename = b.middlename or
-    a.emailaddress = b.emailaddress or
-    a.phone = b.phone or
-    a.territoryid = b.territoryid or
-    a.countryregioncode = b.countryregioncode;
+select T.customerid, T.accountnumber, T.customertype, T.namestyle, T.title, T.firstname, T.middlename,
+T.lastname, T.suffix, T.emailaddress, T.emailpromotion, T.phone, T.additionalcontactinfo, T.territoryid,
+T.territoryname,T.countryregioncode, T.`group`, T.ModifiedDate, current_date(), false
+from store.customer T
+join customer a on T.customerid = a.customerid
+where T.customerid  in (select customerid from customer) and
+(a.accountnumber != T.accountnumber or
+a.customertype != T.customertype or
+a.firstname != T.firstname or
+a.middlename != T.middlename or
+a.emailaddress != T.emailaddress or
+a.phone != T.phone or
+a.territoryid != T.territoryid or
+a.countryregioncode != T.countryregioncode);
 
-
--- copy into temporary table all records in both stable but dont match from the source
--- make sure to set start_date and active records to mark them as current versions
-insert into customer_temp
-select b.customerid, b.accountnumber, b.customertype, b.namestyle, b.title, b.firstname, b.middlename,
-b.lastname, b.suffix, b.emailaddress, b.emailpromotion, b.phone, b.additionalcontactinfo, b.territoryid,
-b.territoryname,b.countryregioncode, b.`group`, current_date(), null,
-true from customer a join customer_temp b on a.customerid = b.customerid
-where  a.`group` = b.`group` or
-a.accountnumber = b.accountnumber or
-a.customertype = b.customertype or
-a.firstname = b.firstname or
-a.middlename = b.middlename or
-a.emailaddress = b.emailaddress or
-a.phone = b.phone or
-a.territoryid = b.territoryid or
-a.countryregioncode = b.countryregioncode;
 
 -- insert overwrite from temporary table to target
 insert overwrite table store.customer
-select T.* from customer_temp as T;
+select * from customer_temp;
 
 
 -- drop the temporary table table
