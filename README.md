@@ -5,6 +5,9 @@
 ### Complete Overview
 <img src="https://github.com/melwinmpk/SCD_in_Warehouse/blob/melwin_doc/img/CompleteFlow.PNG?raw=true"></img>
 
+### Execution Flow
+<a href="https://github.com/melwinmpk/SCD_in_Warehouse/blob/melwin_doc/Documentation/Execution%20Flow.md">Link</a>
+
 ### SCD 1 
 <p>This method overwrites old with new data, and therefore does not track historical data. <p>
 
