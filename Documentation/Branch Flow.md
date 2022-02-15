@@ -11,7 +11,7 @@
                                 the branch name begins with <b>feature_</b> 
                                 for example <b>feature_topicname</b>
     
-                             feature_pahse1
+                             feature_phase1
 <p><b>Note:</b>Review must be done by at least one contributor </p><br>
 </li>
 <li><b>Production:</b> finally working code will be pushed to the Production from the feature Branch
